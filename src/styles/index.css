@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+
+  --font-body: Inter, sans-serif;
+  --font-heading: "Poppins", sans-serif;
+
+  --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
+
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.bg-theme {
+  background-color: var(--color-bg);
+}
+.text-theme {
+  color: var(--color-text);
+}
+.animate-fade-in-scale {
+  animation: var(--animate-fade-in-scale);
+}
+
+.bg-navbar {
+  background-color: #000000;
+}
+.text-navbar {
+  color: #1976d2;
+}
+
+.dark .bg-theme {
+  background-color: #494949;
+}
+.dark .text-theme {
+  color: #ffffff;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
