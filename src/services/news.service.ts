@@ -1,12 +1,6 @@
-export type NewsItem = {
-  id: string;
-  image: string;
-  shortContent: string;
-  content: string;
-  date: string;
-};
+import type {News} from "../types/news.types.ts";
 
-const newsData: NewsItem[] = [
+const newsData: News[] = [
   {
     id: "1",
     image: "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/396e9/MainBefore.jpg",
@@ -43,7 +37,7 @@ const newsData: NewsItem[] = [
 ];
 
 const newsService = {
-  async getNews(): Promise<NewsItem[]> {
+  async getNews(): Promise<News[]> {
     return newsData;
   },
 };

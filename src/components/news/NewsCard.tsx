@@ -1,8 +1,9 @@
-import type { NewsItem } from "../../services/newsService";
+
 import { useNewsStore } from "../../store/NewsStore";
+import type {News} from "../../types/news.types.ts";
 
 interface NewsCardProps {
-  news: NewsItem;
+  news: News;
 }
 
 export default function NewsCard({ news }: NewsCardProps) {

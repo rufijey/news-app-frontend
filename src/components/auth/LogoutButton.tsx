@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useLogout } from "../../hooks/auth/useRegister.ts";
+import { useLogout } from "../../hooks/auth/useLogout.ts";
 
 export default function LogoutButton() {
   const { mutate: logout } = useLogout();

@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import type { NewsItem } from "../services/newsService";
+import type { News } from "../services/news.service.ts";
 
 type NewsState = {
-  selectedNews: NewsItem | null;
-  setSelectedNews: (news: NewsItem | null) => void;
+  selectedNews: News | null;
+  setSelectedNews: (news: News | null) => void;
 };
 
 export const useNewsStore = create<NewsState>((set) => ({
