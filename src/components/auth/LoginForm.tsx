@@ -1,30 +1,41 @@
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../hooks/auth/useLogin";
-import {type LoginFormInputs, loginSchema} from "../../schemas/loginSchema";
-import Form, { type FormField } from "../UI/Form";
+import { useLogin } from "../../hooks/auth/useLogin.ts";
+import { type LoginFormInputs, loginSchema } from "../../schemas/loginSchema";
+import BaseForm, { type FieldConfig} from "../UI/BaseForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import TextField from "../UI/TextField.tsx";
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-  const { mutate: login, isPending, error } = useLogin(navigate);
+    const navigate = useNavigate();
+    const { mutate: login, isPending, error } = useLogin(navigate);
 
-  const fields: FormField[] = [
-    { name: "email", label: "Email" },
-    { name: "password", label: "Password", type: "password" },
-  ];
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+        resolver: zodResolver(loginSchema),
+    });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    login(data);
-  };
+    const fields: FieldConfig<LoginFormInputs>[] = [
+        { name: "email", label: "Email" },
+        { name: "password", label: "Password", type: "password" },
+    ];
 
-  return (
-      <Form
-          title="Login"
-          schema={loginSchema}
-          fields={fields}
-          onSubmit={onSubmit}
-          isPending={isPending}
-          error={error ? "Login failed" : undefined}
-          submitLabel="Login"
-      />
-  );
+    return (
+        <BaseForm
+            title="Login"
+            onSubmit={handleSubmit((data) => login(data))}
+            isPending={isPending}
+            submitLabel="Login"
+            errorMessage={error ? "Login failed" : undefined}
+        >
+            {fields.map((field) => (
+                <TextField
+                    key={field.name}
+                    label={field.label}
+                    type={field.type}
+                    register={register(field.name)}
+                    error={errors[field.name]}
+                />
+            ))}
+        </BaseForm>
+    );
 }
