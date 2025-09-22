@@ -1,4 +1,4 @@
-import type { ReactNode, FormHTMLAttributes } from "react";
+import type { FormHTMLAttributes, ReactNode } from "react";
 import SubmitButton from "./SubmitButton";
 
 interface BaseFormProps extends FormHTMLAttributes<HTMLFormElement> {
@@ -16,13 +16,13 @@ export interface FieldConfig<T> {
 }
 
 export default function BaseForm({
-                                     title,
-                                     children,
-                                     isPending,
-                                     submitLabel,
-                                     errorMessage,
-                                     ...props
-                                 }: BaseFormProps) {
+    title,
+    children,
+    isPending,
+    submitLabel,
+    errorMessage,
+    ...props
+}: BaseFormProps) {
     return (
         <form
             {...props}
@@ -34,7 +34,10 @@ export default function BaseForm({
 
             {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
 
-            <SubmitButton label={isPending ? "Loading..." : submitLabel || "Submit"} disabled={isPending} />
+            <SubmitButton
+                label={isPending ? "Loading..." : submitLabel || "Submit"}
+                disabled={isPending}
+            />
         </form>
     );
 }

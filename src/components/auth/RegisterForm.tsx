@@ -3,14 +3,18 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../../hooks/auth/useRegister.ts";
 import { type RegisterFormInputs, registerSchema } from "../../schemas/registerSchema";
-import BaseForm, {type FieldConfig} from "../UI/BaseForm";
+import BaseForm, { type FieldConfig } from "../UI/BaseForm";
 import TextField from "../UI/TextField.tsx";
 
 export default function RegisterForm() {
     const navigate = useNavigate();
     const { mutate: registerUser, isPending, error } = useRegister(navigate);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormInputs>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<RegisterFormInputs>({
         resolver: zodResolver(registerSchema),
     });
 

@@ -7,8 +7,12 @@ export default function Footer() {
                 © {new Date().getFullYear()} News. All rights reserved.
             </div>
             <div className="flex items-center gap-4 mt-2 md:mt-0">
-                <Link to="/about" className="hover:text-blue-400">About</Link>
-                <Link to="/contact" className="hover:text-blue-400">Contact</Link>
+                <Link to="/about" className="hover:text-blue-400">
+                    About
+                </Link>
+                <Link to="/contact" className="hover:text-blue-400">
+                    Contact
+                </Link>
             </div>
         </footer>
     );

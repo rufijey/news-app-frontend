@@ -1,16 +1,20 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/auth/useLogin.ts";
 import { type LoginFormInputs, loginSchema } from "../../schemas/loginSchema";
-import BaseForm, { type FieldConfig} from "../UI/BaseForm";
-import { zodResolver } from "@hookform/resolvers/zod";
+import BaseForm, { type FieldConfig } from "../UI/BaseForm";
 import TextField from "../UI/TextField.tsx";
 
 export default function LoginForm() {
     const navigate = useNavigate();
     const { mutate: login, isPending, error } = useLogin(navigate);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormInputs>({
         resolver: zodResolver(loginSchema),
     });
 

@@ -9,20 +9,20 @@ const queryClient = new QueryClient({
             retry: 3,
             refetchOnWindowFocus: false,
             staleTime: 1000 * 60,
-            gcTime: 1000 * 60 * 5
+            gcTime: 1000 * 60 * 5,
         },
         mutations: {
             retry: false,
-        }
-    }
+        },
+    },
 });
 
 export default function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </QueryClientProvider>
+    );
 }
