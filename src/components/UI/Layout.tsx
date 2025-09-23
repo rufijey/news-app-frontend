@@ -1,13 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar.tsx";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 export default function Layout() {
-  return (
-    <div>
-      <Navbar />
-      <main className="p-6">
-        <Outlet />
-      </main>
-    </div>
-  );
+    return (
+        <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow p-6">
+                <Outlet />
+            </main>
+            <Footer />
+        </div>
+    );
 }

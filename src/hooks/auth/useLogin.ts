@@ -1,21 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import type { NavigateFunction } from "react-router-dom";
-import authService from "../../services/authService.ts";
+import authService from "../../services/auth.service.ts";
 import { useAuthStore } from "../../store/AuthStore.ts";
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import type { LoginData } from "../../types/auth.types.ts";
 
 export function useLogin(navigate: NavigateFunction) {
-  const setUser = useAuthStore((s) => s.setUser);
+    const setUser = useAuthStore((s) => s.setUser);
 
-  return useMutation({
-    mutationFn: ({ email, password }: LoginData) => authService.login(email, password),
-    onSuccess: (data) => {
-      setUser(data);
-      navigate("/");
-    },
-  });
+    return useMutation({
+        mutationFn: ({ email, password }: LoginData) => authService.login(email, password),
+        onSuccess: (data) => {
+            setUser(data);
+            navigate("/");
+        },
+    });
 }
