@@ -3,21 +3,32 @@ const adUnits = [
         code: "ad-frame",
         sizes: [[300, 600]],
         bidder: "adtelligent",
-        params: {
-            aid: 350975,
-        },
+        params: { aid: 350975 },
     },
     {
         code: "ad-frame1",
         sizes: [[300, 600]],
         bidder: "bidmatic",
-        params: {
-            source: 886409,
-        },
+        params: { source: 886409 },
     },
 ];
 
-export async function initPrebid() {
+function loadPrebid() {
+    return new Promise((resolve, reject) => {
+        if (window.pbjs) return resolve();
+
+        const script = document.createElement("script");
+        script.src = "/prebid10.10.0.js";
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load Prebid.js"));
+        document.head.appendChild(script);
+    });
+}
+
+async function initPrebid() {
+    await loadPrebid();
+
     const pbjs = window.pbjs;
     if (!pbjs.que) pbjs.que = [];
 
@@ -38,9 +49,7 @@ export async function initPrebid() {
     const requestBids = () => {
         pbjs.requestBids({
             timeout: 1000,
-            bidsBackHandler: () => {
-                renderWinningBids();
-            },
+            bidsBackHandler: () => renderWinningBids(),
         });
     };
 
@@ -63,4 +72,5 @@ export async function initPrebid() {
 
 initPrebid();
 
-//У нас не срабатывал рендеринг рекламы на события BidWon, потому что к моменту события iframe ещё небыл создан
+// У нас не срабатывал рендеринг рекламы на события BidWon,
+// потому что к моменту события iframe ещё не был создан
