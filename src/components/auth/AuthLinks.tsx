@@ -1,14 +1,13 @@
-import { useAuthStore } from "../../store/AuthStore.ts";
+import { useAuthStore } from "../../store/auth.store.ts";
 import LinkButton from "../UI/LinkButton.tsx";
 import LogoutButton from "./LogoutButton.tsx";
 
 export default function AuthLinks() {
-    const user = useAuthStore((s) => s.user);
+    const accessToken = useAuthStore((s) => s.accessToken);
 
-    if (user) {
+    if (accessToken) {
         return (
             <div className="flex items-center gap-2">
-                <span className="text-sm"> {user.email}</span>
                 <LogoutButton />
             </div>
         );

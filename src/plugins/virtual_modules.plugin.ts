@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 function virtualModules() {
-    const modulesEnv = process.env.VITE_MODULES || "";
-    const modules = modulesEnv
-        .split(",")
-        .map((m) => m.trim())
+    const VITE_MODULES = process.env.VITE_MODULES || "";
+
+    const modules = VITE_MODULES.split(",")
+        .map((m: string) => m.trim())
         .filter(Boolean);
 
     return {
@@ -15,8 +18,12 @@ function virtualModules() {
         },
         load(id: string) {
             if (id === "virtual:plugins") {
-                return modules.map((m: string) => `import './src/modules/${m}.ts';`).join("\n");
+                if (modules.length === 0) {
+                    return `console.log("No virtual modules to load")`;
+                }
+                return modules.map((m: string) => `import './src/modules/${m}.js';`).join("\n");
             }
+
             return null;
         },
     };

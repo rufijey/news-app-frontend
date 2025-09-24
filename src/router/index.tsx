@@ -6,6 +6,7 @@ import { withSuspense } from "../utils/withSuspense.tsx";
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const NewsPage = lazy(() => import("../pages/NewsPage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
+const PrebidLogsPage = lazy(() => import("../pages/PrebidLogsPage.tsx"));
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
             {
                 path: "/register",
                 element: withSuspense(<RegisterPage />),
+            },
+            {
+                path: "/prebid-logs",
+                element: withSuspense(<PrebidLogsPage />),
             },
         ],
     },

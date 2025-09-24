@@ -24,7 +24,8 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
             <div className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none">
                 <div
-                    className="relative bg-white dark:bg-gray-800 p-8 rounded-lg w-full max-w-3xl shadow-lg pointer-events-auto"
+                    className="relative bg-white dark:bg-gray-800 p-8 rounded-lg w-[60vw] shadow-lg pointer-events-auto
+               max-h-[80vh] overflow-y-auto"
                     aria-modal="true"
                     onClick={(e) => e.stopPropagation()}
                     tabIndex={-1}
