@@ -1,31 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
-interface PbjsBid {
-    adUnitCode?: string;
-    bidderCode?: string;
-    cpm?: number;
-    width?: number;
-    height?: number;
-}
-
-interface PrebidEvent {
-    event: string;
-    adUnitCode?: string;
-    bidderCode?: string;
-    info?: string;
-    id: string;
-}
-
-interface PbjsWindow {
-    pbjs: {
-        que: Array<() => void>;
-        onEvent: (eventName: string, callback: (bid: PbjsBid) => void) => void;
-    };
-}
-
-declare global {
-    interface Window extends PbjsWindow {}
-}
+import type { PbjsBid, PrebidEvent } from "../types/prebid.types.ts";
 
 export default function PrebidLogs() {
     const [logs, setLogs] = useState<PrebidEvent[]>([]);
@@ -36,8 +10,8 @@ export default function PrebidLogs() {
         if (!window.pbjs || handlersRegistered.current) return;
         handlersRegistered.current = true;
 
-        const pbjs = window.pbjs;
-        if (!pbjs.que) pbjs.que = [];
+        const pbjs = window.pbjs || {};
+        pbjs.que = pbjs.que || [];
 
         const addLog = (log: Omit<PrebidEvent, "id">) => {
             setLogs((prev) => {

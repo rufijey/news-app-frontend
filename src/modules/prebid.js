@@ -29,27 +29,34 @@ function loadPrebid() {
 async function initPrebid() {
     await loadPrebid();
 
-    const pbjs = window.pbjs;
-    if (!pbjs.que) pbjs.que = [];
+    const pbjs = window.pbjs || {};
+    pbjs.que = pbjs.que || [];
 
-    const renderWinningBids = () => {
-        const winners = pbjs.getHighestCpmBids();
+    const renderWinningBids = (adUnitCode, expectedType = "banner") => {
+        const winners = pbjs.getHighestCpmBids(adUnitCode);
+
         for (const bid of winners) {
-            const iframe = document.getElementById(bid.adUnitCode);
-            if (iframe?.contentWindow) {
-                const doc = iframe.contentWindow.document;
-                pbjs.renderAd(doc, bid.adId);
-                console.log(
-                    `[Prebid] Rendered ${bid.adUnitCode} | Bidder: ${bid.bidderCode} | CPM: ${bid.cpm}`,
-                );
+            if (bid.mediaType === expectedType) {
+                const iframe = document.getElementById(bid.adUnitCode);
+                if (iframe?.contentWindow) {
+                    const doc = iframe.contentWindow.document;
+                    pbjs.renderAd(doc, bid.adId);
+                    console.log(
+                        `[Prebid] Rendered ${bid.adUnitCode} | Bidder: ${bid.bidderCode} | CPM: ${bid.cpm}`,
+                    );
+                }
             }
         }
     };
 
     const requestBids = () => {
         pbjs.requestBids({
-            timeout: 1000,
-            bidsBackHandler: () => renderWinningBids(),
+            timeout: 1500,
+            bidsBackHandler: () => {
+                for (const adUnit of adUnits) {
+                    renderWinningBids(adUnit.code, "banner");
+                }
+            },
         });
     };
 
@@ -63,14 +70,7 @@ async function initPrebid() {
         );
 
         requestBids();
-
-        setInterval(() => {
-            requestBids();
-        }, 30000);
     });
 }
 
 initPrebid();
-
-// У нас не срабатывал рендеринг рекламы на события BidWon,
-// потому что к моменту события iframe ещё не был создан
