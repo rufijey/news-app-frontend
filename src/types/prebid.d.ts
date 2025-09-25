@@ -21,6 +21,7 @@ export interface PbjsNamespace {
     requestBids: (params: RequestBidsParams) => void;
     getHighestCpmBids: (adUnitCode: string) => PbjsBid[];
     renderAd: (doc: Document, adId: string) => void;
+    loadAndRenderAd: (code: string, iframe: HTMLIFrameElement) => void;
 }
 
 declare global {

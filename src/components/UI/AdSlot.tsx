@@ -6,25 +6,14 @@ interface AdSlotProps {
 
 const AdSlot: React.FC<AdSlotProps> = ({ code }) => {
     const setRef = (iframe: HTMLIFrameElement | null) => {
-        if (!iframe || !window.pbjs) return;
-
-        window.pbjs.que.push(() => {
-            window.pbjs?.requestBids({
-                adUnitCodes: [code],
-                timeout: 1500,
-                bidsBackHandler: () => {
-                    const winners = window.pbjs?.getHighestCpmBids(code);
-                    if (!winners?.length) return;
-
-                    const bid = winners[0];
-                    if (iframe.contentWindow) {
-                        window.pbjs?.renderAd(iframe.contentWindow.document, bid.adId);
-                        console.log(`[Prebid] Rendered ${code} | Bidder: ${bid.bidderCode}`);
-                    }
-                },
-            });
-        });
+        if (iframe) {
+            window.pbjs?.loadAndRenderAd?.(code, iframe);
+        }
     };
+
+    if (!window.pbjs) {
+        return null;
+    }
 
     return (
         <iframe

@@ -60,6 +60,25 @@ async function initPrebid() {
         });
     };
 
+    pbjs.loadAndRenderAd = (code, iframe) => {
+        pbjs.requestBids({
+            adUnitCodes: [code],
+            timeout: 1500,
+            bidsBackHandler: () => {
+                const winners = pbjs.getHighestCpmBids(code);
+                if (!winners?.length) return;
+
+                const bid = winners[0];
+                if (iframe?.contentWindow) {
+                    pbjs.renderAd(iframe.contentWindow.document, bid.adId);
+                    console.log(
+                        `[Prebid] Rendered ${code} | Bidder: ${bid.bidderCode} | CPM: ${bid.cpm}`,
+                    );
+                }
+            },
+        });
+    };
+
     pbjs.que.push(() => {
         pbjs.addAdUnits(
             adUnits.map((adUnit) => ({
