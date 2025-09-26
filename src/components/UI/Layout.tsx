@@ -6,9 +6,12 @@ export default function Layout() {
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="flex-grow p-6">
-                <Outlet />
-            </main>
+
+            <div className="flex flex-grow gap-4 p-6">
+                <main className="flex-grow">
+                    <Outlet />
+                </main>
+            </div>
             <Footer />
         </div>
     );

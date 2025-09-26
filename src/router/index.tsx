@@ -6,6 +6,12 @@ import { withSuspense } from "../utils/withSuspense.tsx";
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const NewsPage = lazy(() => import("../pages/NewsPage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
+const PrebidLogsPage = lazy(() => import("../pages/PrebidLogsPage.tsx"));
+
+const VITE_MODULES = import.meta.env.VITE_MODULES || "";
+const modules = VITE_MODULES.split(",").map((m) => m.trim());
+
+const hasPrebid = modules.includes("prebid");
 
 export const router = createBrowserRouter([
     {
@@ -24,6 +30,9 @@ export const router = createBrowserRouter([
                 path: "/register",
                 element: withSuspense(<RegisterPage />),
             },
+            ...(hasPrebid
+                ? [{ path: "/prebid-logs", element: withSuspense(<PrebidLogsPage />) }]
+                : []),
         ],
     },
 ]);

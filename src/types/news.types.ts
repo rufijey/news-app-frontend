@@ -1,7 +1,14 @@
-export type News = {
+export interface News {
     id: string;
-    image: string;
-    shortContent: string;
-    content: string;
-    date: string;
-};
+    title: string | null;
+    date: string | null;
+    contentSnippet: string;
+    source: string;
+    link: string;
+}
+
+export interface Article {
+    title: string;
+    image?: string;
+    text: string;
+}
